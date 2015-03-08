@@ -1,6 +1,7 @@
 /* Import node's http module: */
 var handler = require('./request-handler');
 var express = require('express');
+
 var app = express();
 
 app.options(/messages/, function (req, res) {
@@ -19,14 +20,11 @@ app.post(/messages/, function (req, res) {
 });
 
 var server = app.listen(3000, function () {
-
   var host = server.address().address
   var port = server.address().port
-  handler.readData('./log.txt');
-
-  console.log('Example app listening at http://%s:%s', host, port)
-
-})
+  handler.readData('log.txt');
+  console.log('Example app listening at http://%s:%s', host, port);
+});
 
 
 

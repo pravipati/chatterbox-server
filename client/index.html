@@ -39,7 +39,6 @@
           messages.loadMessages();
           var formView = new FormView({el: $('#main'), collection: messages});
           var messagesView = new MessagesView({el: $('#messageBox'), collection: messages});
-
           setInterval(function(){
             messages.loadMessages();
           },1000);

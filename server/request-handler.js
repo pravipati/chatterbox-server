@@ -28,6 +28,7 @@ exports.writeData = function(filename){
 
 exports.readData = function(filename){
   fs.readFile(filename, function(err, data){
+    if (err) throw err;
     exports.data = JSON.parse(data);
   });
 };
@@ -35,8 +36,9 @@ exports.readData = function(filename){
 exports.createResponse = function(status, type, payload, req, res){
   var headers = exports.defaultCorsHeaders;
   headers['Content-Type'] = "text/" + type;
-  res.writeHead(status, headers);
-  res.end(payload);
+  res.writeHead(200, headers);
+  res.write(payload);
+  res.end();
 };
 
 exports.postHandler = function(req, res){
@@ -46,12 +48,10 @@ exports.postHandler = function(req, res){
       console.log('got %d bytes of data :', chunk.length);
       body += chunk;
   });
-
   req.on('end', function () {
-    debugger;
     exports.data.results.push(JSON.parse(body));
     exports.createResponse(201, "json", JSON.stringify(exports.data), req, res);
-    exports.writeData('./log.txt');
+    exports.writeData('log.txt');
   });
-}
+};
 
